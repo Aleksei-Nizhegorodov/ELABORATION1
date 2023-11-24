@@ -42,6 +42,6 @@ anim = FuncAnimation(fig,
                      update_plot,
                      frames=len(set(rawData[timeLabel])),
                      init_func=init_func,
-                     interval=10000, repeat=False)
+                     interval=1000, repeat=False)
 
 plt.show()
