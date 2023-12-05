@@ -13,7 +13,7 @@ struct pipe_data {
    
     
 };
-/// @brief struct of calculation pipe data
+/// @brief struct of calculation pipe data (русский язык)
 struct calc_data {
     int T;    //T - период моделирования  
     double ro_n;  // Начальная плотность нефти в трубе 
