@@ -69,7 +69,7 @@ int main()
     calc_data iniCalc(iniPipe);  //объявление переменной iniCalc типа calc_data
 
     vector<double> ro_in(iniCalc.num_layers); // Вектор плотностей нефти входных партий
-    ro_in = { 850, 870, 860, 860, 860,860, 860, 860, 860, 860 };
+    ro_in = { 850, 870, 860, 860, 860,860, 860, 860, 860, 870 };
 
     vector <double> ro_0(iniPipe.num_segmetations); // Начальный слой по плотности
     vector<double> ro_1(iniPipe.num_segmetations);   // Следующий слой по плотности
