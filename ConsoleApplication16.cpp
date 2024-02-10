@@ -39,16 +39,6 @@ struct CalcData {
     }
 };
 
-/// @brief Структура профилей вхлдящих параметров плотности
-struct RoProfile {
-    vector<double> data;
-};
-
-/// @brief Структура профилей входящих параметров серы
-struct SeraProfile {
-    vector<double> data;
-};
-
 
 /// @brief Ф-ция вывода значений расчета в .csv формат
 /// @param iniCalc предача значений из структуры CalcData
@@ -82,13 +72,11 @@ class PipeCalculation {
 private:
     PipeData pipe_data_;
     CalcData calc_data_;
-    RoProfile ro_profile_;
-    SeraProfile sera_profile_;
-
-
+    vector<double> ro_profile_;
+    vector<double> sera_profile_;
 
 public:
-    PipeCalculation(const PipeData& pd, const CalcData& cd, const RoProfile& ro_prof, const SeraProfile& sera_prof)
+    PipeCalculation(const PipeData& pd, const CalcData& cd, const vector<double>& ro_prof, const vector<double>& sera_prof)
         : pipe_data_(pd),
         calc_data_(cd),
         ro_profile_(ro_prof),
@@ -114,16 +102,16 @@ public:
         PipeData iniPipe;
         CalcData iniCalc(iniPipe);
 
-        vector<double> double_array(iniPipe.num_segments);
-        ring_buffer_t<vector<vector<double>>> buffer(2, { double_array, double_array }); 
+        vector<double> double_array(pipe_data_.num_segments);
+        ring_buffer_t<vector<vector<double>>> buffer(2, { double_array, double_array });
 
         for (size_t i = 0; i < calc_data_.num_layers; i++) {
             for (size_t j = 0; j < buffer.current().size(); j++) {
-                calculation(pipe_data_, ro_profile_.data[i], buffer.current()[j], buffer.previous()[j]);
-                calculation(pipe_data_, sera_profile_.data[i], buffer.current()[j], buffer.previous()[j]);
+                calculation(pipe_data_, ro_profile_[i], buffer.current()[j], buffer.previous()[j]);
+                calculation(pipe_data_, sera_profile_[i], buffer.current()[j], buffer.previous()[j]);
             }
             buffer.advance(1);
-            output_fun(iniCalc, buffer.current(), i);
+            output_fun(calc_data_, buffer.current(), i);
         }
     }
 };
@@ -135,8 +123,8 @@ int main() {
     CalcData iniCalc(iniPipe);
 
     // Профили входящих значений
-    RoProfile roProfile = { {  850,  870,  860,  860,  860,  860,  860,  860,  860,  870 } };
-    SeraProfile seraProfile = { {  0.01,  0.02,  0.03,  0.04,  0.05,  0.06,  0.07,  0.08,  0.09,  0.01 } };
+    vector<double> roProfile = { 850,   870,   860,   860,   860,   860,   860,   860,   860,   870 };
+    vector<double> seraProfile = { 0.01,   0.02,   0.03,   0.04,   0.05,   0.06,   0.07,   0.08,   0.09,   0.01 };
 
     PipeCalculation pc(iniPipe, iniCalc, roProfile, seraProfile);
     pc.characteristic_method();
