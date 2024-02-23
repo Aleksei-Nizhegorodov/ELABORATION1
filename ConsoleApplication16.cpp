@@ -65,6 +65,7 @@ void output_fun(const CalcData& iniCalc, const vector<vector<double>>& current_l
     }
 }
 
+
 /// @brief иницилизация класса PipeCalculation (реализация решения методом характеристик)
 class PipeCalculation {
 
@@ -81,7 +82,6 @@ public:
         calc_data_(cd),
         ro_profile_(ro_prof),
         sera_profile_(sera_prof) {}
-
 
 /// @brief отдельная функция для метода характеристик
 /// @param iniPipe объявление переменной iniPipe (Данные о параметрах трубопровода)
@@ -130,3 +130,4 @@ int main() {
     pc.characteristic_method();
     return  0;
 }
+
